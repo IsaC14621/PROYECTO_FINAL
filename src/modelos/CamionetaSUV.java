@@ -16,10 +16,9 @@ public class CamionetaSUV extends Vehiculo {
                         String placa,
                         String marca,
                         int modelo,
-                        float precioDiario,
-                        String estado) {
+                        float precioPorDia) {
 
-        super(placa, marca, modelo, precioDiario, estado);
+        super(placa, marca, modelo, precioPorDia);
 
         this.traccion = traccion;
         this.capacidadMaletero = capacidadMaletero;

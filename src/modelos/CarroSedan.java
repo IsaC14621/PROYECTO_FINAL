@@ -16,10 +16,9 @@ public class CarroSedan extends Vehiculo {
                       String placa,
                       String marca,
                       int modelo,
-                      float precioDiario,
-                      String estado) {
+                      float precioPorDia) {
 
-        super(placa, marca, modelo, precioDiario, estado);
+        super(placa, marca, modelo, precioPorDia);
 
         this.tipoCombustible = tipoCombustible;
         this.transmision = transmision;

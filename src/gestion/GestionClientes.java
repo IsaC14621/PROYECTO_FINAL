@@ -6,16 +6,17 @@ import modelos.Cliente;
 public class GestionClientes {
 
     private ArrayList<Cliente> listaClientes;
-
+    private ArchivoClientes archivo = new ArchivoClientes();
+    
     // Constructor
     public GestionClientes() {
 
-        listaClientes = new ArrayList<>();
-
+        listaClientes = archivo.cargarClientesTXT();
     }
 public void registrarCliente(Cliente cliente) {
 
     listaClientes.add(cliente);
+    archivo.guardarClienteTXT(cliente);
 
     System.out.println("Cliente registrado correctamente.");
 
@@ -35,6 +36,21 @@ public void listarClientes() {
         }
 
     }
+
+}
+public Cliente buscarCliente(String cedula) {
+
+    for (Cliente cliente : listaClientes) {
+
+        if (cliente.getCedula().equals(cedula)) {
+
+            return cliente;
+
+        }
+
+    }
+
+    return null;
 
 }
 public Cliente buscarClientePorCedula(String cedula) {
@@ -75,13 +91,37 @@ public boolean eliminarCliente(String cedula) {
     if (clienteEliminar != null) {
 
         listaClientes.remove(clienteEliminar);
-
+        archivo.reescribirTXT(listaClientes);
         return true;
 
     }
 
     return false;
 
+}
+public boolean modificarTelefono(
+        String cedula,
+        String nuevoTelefono
+) {
+
+    Cliente cliente =
+            buscarCliente(cedula);
+
+    if (cliente != null) {
+
+        cliente.setTelefono(
+                nuevoTelefono
+        );
+
+        archivo.reescribirTXT(
+                listaClientes
+        );
+
+        return true;
+
+    }
+
+    return false;
 
 }
 public boolean modificarTelefonoCliente(String cedula,
