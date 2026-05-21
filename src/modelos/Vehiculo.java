@@ -5,6 +5,7 @@ public class Vehiculo {
     protected String marca;
     protected int modelo;
     protected double precioPorDia;
+    protected boolean disponible;
 
     public Vehiculo() {
 
@@ -21,7 +22,7 @@ public class Vehiculo {
         this.marca = marca;
         this.modelo = modelo;
         this.precioPorDia = precioPorDia;
-
+        this.disponible = true;
     }
 
     public String getPlaca() {
@@ -40,6 +41,21 @@ public class Vehiculo {
         return precioPorDia;
     }
 
+    public boolean isDisponible() {
+
+    return disponible;
+
+}
+
+public void setDisponible(
+        boolean disponible
+) {
+
+    this.disponible =
+            disponible;
+
+}
+
     public void setPrecioPorDia(
             double precioPorDia
     ) {
@@ -55,9 +71,9 @@ public class Vehiculo {
                 "placa='" + placa + '\'' +
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
-                ", precioPorDia=" + precioPorDia +
+                ", precioPorDia=" + precioPorDia +'\'' +
+                ", disponible=" + disponible +
                 '}';
 
     }
-
 }

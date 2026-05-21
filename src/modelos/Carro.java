@@ -13,8 +13,7 @@ public class Carro extends Vehiculo {
             String marca,
             int modelo,
             double precioPorDia,
-            int numeroPuertas
-    ) {
+            int numeroPuertas) {
 
         super( placa, marca, modelo,precioPorDia );
 

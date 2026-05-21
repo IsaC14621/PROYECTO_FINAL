@@ -1,6 +1,10 @@
 import gestion.GestionClientes;
+import gestion.GestionVehiculos;
 import java.util.Scanner;
+import modelos.Carro;
 import modelos.Cliente;
+import modelos.ContratoRenting;
+import modelos.Vehiculo;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,6 +15,7 @@ public class Main {
             new GestionClientes();
             int opcion;
 
+    GestionVehiculos gestionVehiculos = new GestionVehiculos();
 do {
 
     System.out.println(
@@ -36,8 +41,29 @@ do {
     System.out.println(
         "5. Modificar telefono"
     );
+    
     System.out.println(
-            "6. Salir"
+            "6. Registrar vehiculo"
+    );
+
+    System.out.println(
+            "7. Listar vehiculos"
+    );
+
+    System.out.println(
+            "8. Alquilar vehiculos"
+    );
+
+    System.out.println(
+            "9. Devolver vehiculo"
+    );
+
+    System.out.println(
+            "10. Crear contrato"
+    );
+
+    System.out.println(
+            "11. Salir"
     );
 
     System.out.print(
@@ -207,7 +233,214 @@ do {
 
     break;
 
-        case 6:
+    case 6:
+
+    System.out.print(
+            "Placa: "
+    );
+
+    String placa =
+            sc.nextLine();
+
+    System.out.print(
+            "Marca: "
+    );
+
+    String marca =
+            sc.nextLine();
+
+    System.out.print(
+            "Modelo: "
+    );
+
+    int modelo;
+
+while (true) {
+
+    try {
+        modelo =
+                Integer.parseInt(
+                        sc.nextLine()
+                );
+
+        break;
+
+    } catch (
+            NumberFormatException e
+    ) {
+
+        System.out.println(
+                "Ingrese un numero valido."
+        );
+
+    }
+}
+    System.out.print(
+            "Precio por dia: "
+    );
+    System.out.print(
+        "Numero de puertas: "
+);
+
+    double precioPorDia =
+            sc.nextDouble();
+
+    sc.nextLine();
+
+    int numeroPuertas =
+        sc.nextInt();
+sc.nextLine();
+
+    Carro carro = new Carro( placa, marca, modelo,  precioPorDia, numeroPuertas );
+
+    gestionVehiculos
+            .registrarVehiculo(
+                    carro
+            );
+
+    break;
+
+
+
+case 7:
+
+    gestionVehiculos
+            .listarVehiculos();
+
+    break;
+case 8:
+
+    System.out.print(
+            "Placa del vehiculo: "
+    );
+
+    String placaAlquilar =
+            sc.nextLine();
+
+    boolean alquilado =
+            gestionVehiculos
+                    .alquilarVehiculo(
+                            placaAlquilar
+                    );
+
+    if (alquilado) {
+
+        System.out.println(
+                "Vehiculo alquilado."
+        );
+
+    } else {
+
+        System.out.println(
+                "Vehiculo no disponible."
+        );
+
+    }
+
+    break;
+
+    case 9:
+
+    System.out.print(
+            "Placa del vehiculo: "
+    );
+
+    String placaDevolver =
+            sc.nextLine();
+
+    boolean devuelto =
+            gestionVehiculos
+                    .devolverVehiculo(
+                            placaDevolver
+                    );
+
+    if (devuelto) {
+
+        System.out.println(
+                "Vehiculo devuelto."
+        );
+
+    } else {
+
+        System.out.println(
+                "No se pudo devolver."
+        );
+
+    }
+
+    break;
+
+    case 10:
+
+    System.out.print(
+            "Cedula del cliente: "
+    );
+
+    String cedulaContrato =
+            sc.nextLine();
+
+    Cliente cliente =
+            gestion.buscarCliente(
+                    cedulaContrato
+            );
+
+    System.out.print(
+            "Placa del vehiculo: "
+    );
+
+    String placaContrato =
+            sc.nextLine();
+
+    Vehiculo vehiculo =
+            gestionVehiculos.buscarVehiculo(
+                    placaContrato
+            );
+
+    System.out.print(
+            "Dias de alquiler: "
+    );
+
+    int dias =
+            sc.nextInt();
+
+    sc.nextLine();
+
+    if (cliente != null
+            && vehiculo != null
+            && vehiculo.isDisponible()) {
+
+       float totalPagar =
+        (float)
+        (dias *
+        vehiculo.getPrecioPorDia());
+
+ContratoRenting contrato =
+        new ContratoRenting(
+                1,
+                cliente,
+                vehiculo,
+                dias,
+                totalPagar,
+                "ACTIVO"
+        );
+        vehiculo.setDisponible(
+                false
+        );
+
+        System.out.println(
+                contrato
+        );
+
+    } else {
+
+        System.out.println(
+                "No se pudo crear el contrato."
+        );
+
+    }
+
+    break;
+        case 11:
 
             System.out.println(
                     "Saliendo del sistema..."
@@ -223,6 +456,6 @@ do {
 
     }
 
-} while (opcion != 6);
+} while (opcion != 11);
     }
     }

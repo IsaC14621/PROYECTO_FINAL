@@ -13,12 +13,7 @@ public class ContratoRenting {
 
     }
 
-    public ContratoRenting(int idContrato,
-                           Cliente cliente,
-                           Vehiculo vehiculo,
-                           int cantidadDias,
-                           float totalPagar,
-                           String estadoContrato) {
+    public ContratoRenting(int idContrato, Cliente cliente, Vehiculo vehiculo, int cantidadDias,float totalPagar, String estadoContrato) {
 
         this.idContrato = idContrato;
         this.cliente = cliente;
