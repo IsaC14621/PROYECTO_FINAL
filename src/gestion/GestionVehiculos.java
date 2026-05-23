@@ -5,12 +5,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 import modelos.Vehiculo;
 
 public class GestionVehiculos {
 
     private ArrayList<Vehiculo>
             listaVehiculos;
+
+            private Stack<String>
+        historialDevoluciones;
+
+private Queue<String>
+        colaEspera;
 
             private final String ARCHIVO =
         "vehiculos.txt";
@@ -19,30 +28,37 @@ public class GestionVehiculos {
 
         listaVehiculos =
                 new ArrayList<>();
+                historialDevoluciones= new Stack<>();
+                colaEspera = new LinkedList<>();
 
                 cargarVehiculosTXT();
 
     }
+public boolean registrarVehiculo(
+        Vehiculo vehiculo
+) {
 
-    public void registrarVehiculo(
-            Vehiculo vehiculo
-    ) 
-    {
-        
+    if (
+            buscarVehiculo(
+                    vehiculo.getPlaca()
+            ) != null
+    ) {
 
-        listaVehiculos.add(
-                vehiculo
-                
-        );
-
-        guardarVehiculoTXT(
-        vehiculo
-);
-        System.out.println(
-                "Vehiculo registrado correctamente."
-        );
+        return false;
 
     }
+
+    listaVehiculos.add(
+            vehiculo
+    );
+
+    guardarVehiculoTXT(
+            vehiculo
+    );
+
+    return true;
+
+}
     
 
     public void listarVehiculos() {
@@ -101,6 +117,18 @@ public class GestionVehiculos {
 
     }
 
+    colaEspera.add(
+            placa
+    );
+
+    System.out.println(
+            "Vehiculo no disponible."
+    );
+
+    System.out.println(
+            "Placa agregada a cola de espera."
+    );
+
     return false;
 
 }
@@ -118,6 +146,10 @@ public boolean devolverVehiculo(
 
         vehiculo.setDisponible(
                 true
+        );
+
+        historialDevoluciones.push(
+                placa
         );
 
         return true;
@@ -141,6 +173,7 @@ public boolean devolverVehiculo(
             listaVehiculos.remove(
                     vehiculoEliminar
             );
+            actualizarTXT();
 
             return true;
 
@@ -182,6 +215,48 @@ public boolean devolverVehiculo(
 
         System.out.println(
                 "Error guardando vehiculo."
+        );
+
+    }
+
+}
+public void actualizarTXT() {
+
+    try {
+
+        FileWriter escritor =
+                new FileWriter(
+                        ARCHIVO
+                );
+
+        for (
+                Vehiculo vehiculo
+                : listaVehiculos
+        ) {
+
+            escritor.write(
+                    vehiculo.getPlaca()
+                    + ","
+                    + vehiculo.getMarca()
+                    + ","
+                    + vehiculo.getModelo()
+                    + ","
+                    + vehiculo.getPrecioPorDia()
+                    + ","
+                    + vehiculo.isDisponible()
+                    + "\n"
+            );
+
+        }
+
+        escritor.close();
+
+    } catch (
+            IOException e
+    ) {
+
+        System.out.println(
+                "Error actualizando TXT."
         );
 
     }

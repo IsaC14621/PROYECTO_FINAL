@@ -13,12 +13,25 @@ public class GestionClientes {
 
         listaClientes = archivo.cargarClientesTXT();
     }
-public void registrarCliente(Cliente cliente) {
+public boolean registrarCliente(
+        Cliente cliente
+) {
 
-    listaClientes.add(cliente);
-    archivo.guardarClienteTXT(cliente);
+    if (
+            buscarCliente(
+                    cliente.getCedula().trim()
+            ) != null
+    ) {
 
-    System.out.println("Cliente registrado correctamente.");
+        return false;
+
+    }
+
+    listaClientes.add(
+            cliente
+    );
+
+    return true;
 
 }
 public void listarClientes() {
@@ -42,7 +55,7 @@ public Cliente buscarCliente(String cedula) {
 
     for (Cliente cliente : listaClientes) {
 
-        if (cliente.getCedula().equals(cedula)) {
+        if (cliente.getCedula().trim().equals(cedula.trim())) {
 
             return cliente;
 
@@ -53,40 +66,11 @@ public Cliente buscarCliente(String cedula) {
     return null;
 
 }
-public Cliente buscarClientePorCedula(String cedula) {
 
-    for (Cliente cliente : listaClientes) {
-
-        if (cliente.getCedula().equals(cedula)) {
-
-            return cliente;
-
-        }
-
-    }
-
-    return null;
-
-}
-public boolean existeCliente(String cedula) {
-
-    for (Cliente cliente : listaClientes) {
-
-        if (cliente.getCedula().equals(cedula)) {
-
-            return true;
-
-        }
-
-    }
-
-    return false;
-
-}
 public boolean eliminarCliente(String cedula) {
 
     Cliente clienteEliminar =
-            buscarClientePorCedula(cedula);
+            buscarCliente(cedula);
 
     if (clienteEliminar != null) {
 
@@ -128,7 +112,7 @@ public boolean modificarTelefonoCliente(String cedula,
                                         String nuevoTelefono) {
 
     Cliente cliente =
-            buscarClientePorCedula(cedula);
+            buscarCliente(cedula);
 
     if (cliente != null) {
 

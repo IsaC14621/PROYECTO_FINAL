@@ -1,4 +1,4 @@
-1234,Sofia,Cortez,3456,Medellin,gtm908
+1234,Sofia,Cortez,789,Medellin,gtm908
 2345,Vanesa,Zapata,9087,Bogota,hty302
 23456,jose,londo�o,4567,medellin,jtw123
 230,Alejandra,Maldonado,786,medellin,tbn234

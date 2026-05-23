@@ -1,9 +1,11 @@
 import gestion.GestionClientes;
 import gestion.GestionVehiculos;
 import java.util.Scanner;
+import modelos.Camioneta;
 import modelos.Carro;
 import modelos.Cliente;
 import modelos.ContratoRenting;
+import modelos.Moto;
 import modelos.Vehiculo;
 
 public class Main {
@@ -51,28 +53,50 @@ do {
     );
 
     System.out.println(
-            "8. Alquilar vehiculos"
+            "8. Buscar vehiculo"
     );
 
     System.out.println(
-            "9. Devolver vehiculo"
+            "9. Alquilar vehiculos"
     );
 
     System.out.println(
-            "10. Crear contrato"
+            "10. Devolver vehiculo"
     );
 
     System.out.println(
-            "11. Salir"
+            "11. Eliminar vehiculo"
+    );
+
+    System.out.println(
+            "12. Crear contrato"
+    );
+
+    System.out.println(
+            "13. Salir"
     );
 
     System.out.print(
             "Seleccione una opcion: "
     );
 
-    opcion = sc.nextInt();
-    sc.nextLine();
+   while (true) {
 
+    if (sc.hasNextInt()) {
+        opcion = sc.nextInt();
+        sc.nextLine();
+
+        if (opcion >= 1 && opcion <= 11) {
+            break; // opción válida
+        } else {
+            System.out.println("Opcion invalida. Intente nuevamente.");
+        }
+
+    } else {
+        System.out.println("Entrada no valida. Debe ingresar un numero.");
+        sc.nextLine(); // limpiar entrada incorrecta
+    }
+}
     switch (opcion) {
 
         case 1:
@@ -82,6 +106,19 @@ do {
             );
             String cedula =
                     sc.nextLine();
+                    if (
+        gestion.buscarCliente(
+                cedula
+        ) != null
+) {
+
+    System.out.println(
+            "La cedula ya existe."
+    );
+
+    break;
+
+}
 
             System.out.print(
                     "Nombre: "
@@ -123,9 +160,24 @@ do {
                             licencia
                     );
 
-            gestion.registrarCliente(
-                    nuevo
-            );
+            boolean clienteRegistrado =
+        gestion.registrarCliente(
+                nuevo
+        );
+
+if (clienteRegistrado) {
+
+    System.out.println(
+            "Cliente registrado."
+    );
+
+} else {
+
+    System.out.println(
+            "La cedula ya existe."
+    );
+
+}
 
             break;
 
@@ -235,9 +287,30 @@ do {
 
     case 6:
 
-    System.out.print(
-            "Placa: "
-    );
+    System.out.println(
+        "Tipo de vehiculo:"
+);
+
+System.out.println(
+        "1. Carro"
+);
+
+System.out.println(
+        "2. Moto"
+);
+
+System.out.println(
+        "3. Camioneta"
+);
+
+int tipoVehiculo =
+        sc.nextInt();
+
+sc.nextLine();
+
+System.out.print(
+        "Placa:"
+);
 
     String placa =
             sc.nextLine();
@@ -278,26 +351,97 @@ while (true) {
     System.out.print(
             "Precio por dia: "
     );
-    System.out.print(
-        "Numero de puertas: "
-);
 
     double precioPorDia =
             sc.nextDouble();
 
     sc.nextLine();
 
+   Vehiculo vehiculo;
+
+if (tipoVehiculo == 1) {
+
+    System.out.print(
+            "Numero de puertas: "
+    );
+
     int numeroPuertas =
-        sc.nextInt();
-sc.nextLine();
+            sc.nextInt();
 
-    Carro carro = new Carro( placa, marca, modelo,  precioPorDia, numeroPuertas );
+    sc.nextLine();
 
-    gestionVehiculos
-            .registrarVehiculo(
-                    carro
+    vehiculo =
+            new Carro(
+                    placa,
+                    marca,
+                    modelo,
+                    precioPorDia,
+                    numeroPuertas
             );
 
+} else if (
+        tipoVehiculo == 2
+) {
+
+    System.out.print(
+            "Cilindraje: "
+    );
+
+    int cilindraje =
+            sc.nextInt();
+
+    sc.nextLine();
+
+    vehiculo =
+            new Moto(
+                    placa,
+                    marca,
+                    modelo,
+                    precioPorDia,
+                    cilindraje
+            );
+
+} else {
+
+    System.out.print(
+        "Capacidad de carga: "
+);
+
+double capacidadCarga =
+        sc.nextDouble();
+
+sc.nextLine();
+
+vehiculo =
+        new Camioneta(
+                placa,
+                marca,
+                modelo,
+                precioPorDia,
+                capacidadCarga
+        );
+
+}
+
+boolean registrado =
+        gestionVehiculos
+                .registrarVehiculo(
+                        vehiculo
+                );
+
+if (registrado) {
+
+    System.out.println(
+            "Vehiculo registrado."
+    );
+
+} else {
+
+    System.out.println(
+            "La placa ya existe."
+    );
+
+}
     break;
 
 
@@ -308,7 +452,39 @@ case 7:
             .listarVehiculos();
 
     break;
-case 8:
+
+    case 8:
+
+    System.out.print(
+            "Ingrese placa: "
+    );
+
+    String placaBuscar =
+            sc.nextLine();
+
+    Vehiculo vehiculoBuscado =
+            gestionVehiculos
+                    .buscarVehiculo(
+                            placaBuscar
+                    );
+
+    if (vehiculoBuscado != null) {
+
+        System.out.println(
+                vehiculoBuscado
+        );
+
+    } else {
+
+        System.out.println(
+                "Vehiculo no encontrado."
+        );
+
+    }
+
+    break;
+
+case 9:
 
     System.out.print(
             "Placa del vehiculo: "
@@ -339,7 +515,7 @@ case 8:
 
     break;
 
-    case 9:
+    case 10:
 
     System.out.print(
             "Placa del vehiculo: "
@@ -370,7 +546,38 @@ case 8:
 
     break;
 
-    case 10:
+    case 11:
+
+    System.out.print(
+            "Placa del vehiculo: "
+    );
+
+    String placaEliminar =
+            sc.nextLine();
+
+    boolean vehiculoEliminado =
+            gestionVehiculos
+                    .eliminarVehiculo(
+                            placaEliminar
+                    );
+
+    if (vehiculoEliminado) {
+
+        System.out.println(
+                "Vehiculo eliminado."
+        );
+
+    } else {
+
+        System.out.println(
+                "Vehiculo no encontrado."
+        );
+
+    }
+
+    break;
+
+    case 12:
 
     System.out.print(
             "Cedula del cliente: "
@@ -383,6 +590,74 @@ case 8:
             gestion.buscarCliente(
                     cedulaContrato
             );
+            if (cliente == null) {
+
+    System.out.println(
+            "Cliente no encontrado."
+    );
+
+    System.out.println(
+            "Registrando nuevo cliente..."
+    );
+
+    System.out.print(
+            "Nombre: "
+    );
+
+    String nombreNuevo =
+            sc.nextLine();
+
+    System.out.print(
+            "Apellido: "
+    );
+
+    String apellidoNuevo =
+            sc.nextLine();
+
+    System.out.print(
+            "Telefono: "
+    );
+
+    String telefonoNuevo =
+            sc.nextLine();
+
+    System.out.print(
+            "Direccion: "
+    );
+
+    String direccionNueva =
+            sc.nextLine();
+
+    System.out.print(
+            "Licencia: "
+    );
+
+    String licenciaNueva =
+            sc.nextLine();
+
+    cliente =
+            new Cliente(
+                    cedulaContrato,
+                    nombreNuevo,
+                    apellidoNuevo,
+                    telefonoNuevo,
+                    direccionNueva,
+                    licenciaNueva
+            );
+
+    gestion.registrarCliente(
+            cliente
+    );
+
+    System.out.println(
+            "Cliente registrado correctamente."
+    );
+
+}
+
+    Vehiculo vehiculoContrato;
+
+while (true) {
 
     System.out.print(
             "Placa del vehiculo: "
@@ -391,10 +666,35 @@ case 8:
     String placaContrato =
             sc.nextLine();
 
-    Vehiculo vehiculo =
+    vehiculoContrato =
             gestionVehiculos.buscarVehiculo(
                     placaContrato
             );
+
+    if (vehiculoContrato != null) {
+
+        break;
+
+    }
+
+    System.out.println(
+            "Vehiculo no encontrado."
+    );
+
+    System.out.println(
+            "Ingrese una placa valida."
+    );
+
+}
+        if (vehiculoContrato == null) {
+
+    System.out.println(
+            "Vehiculo no encontrado."
+    );
+
+    break;
+
+}
 
     System.out.print(
             "Dias de alquiler: "
@@ -405,25 +705,23 @@ case 8:
 
     sc.nextLine();
 
-    if (cliente != null
-            && vehiculo != null
-            && vehiculo.isDisponible()) {
+    if ( vehiculoContrato.isDisponible()) {
 
        float totalPagar =
         (float)
         (dias *
-        vehiculo.getPrecioPorDia());
+        vehiculoContrato.getPrecioPorDia());
 
 ContratoRenting contrato =
         new ContratoRenting(
                 1,
                 cliente,
-                vehiculo,
+                vehiculoContrato,
                 dias,
                 totalPagar,
                 "ACTIVO"
         );
-        vehiculo.setDisponible(
+        vehiculoContrato.setDisponible(
                 false
         );
 
@@ -440,7 +738,9 @@ ContratoRenting contrato =
     }
 
     break;
-        case 11:
+
+
+        case 13:
 
             System.out.println(
                     "Saliendo del sistema..."
@@ -456,6 +756,6 @@ ContratoRenting contrato =
 
     }
 
-} while (opcion != 11);
+} while (opcion != 13);
     }
     }
