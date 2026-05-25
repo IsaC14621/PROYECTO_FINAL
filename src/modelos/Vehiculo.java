@@ -29,6 +29,10 @@ public class Vehiculo {
         return placa;
     }
 
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
     public String getMarca() {
         return marca;
     }
@@ -65,15 +69,21 @@ public void setDisponible(
     }
 
     @Override
-    public String toString() {
+public String toString() {
 
-        return "Vehiculo{" +
-                "placa='" + placa + '\'' +
-                ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", precioPorDia=" + precioPorDia +'\'' +
-                ", disponible=" + disponible +
-                '}';
+    return "Vehiculo{" +
+            "placa='" + placa + '\'' +
+            ", marca='" + marca + '\'' +
+            ", modelo='" + modelo + '\'' +
+            ", precioPorDia=" + precioPorDia +
+            ", estado='" +
+            (
+                    disponible
+                    ? "Disponible"
+                    : "Alquilado"
+            ) +
+            '\'' +
+            '}';
 
-    }
+}
 }

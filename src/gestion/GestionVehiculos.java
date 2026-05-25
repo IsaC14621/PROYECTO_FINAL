@@ -141,8 +141,7 @@ public boolean devolverVehiculo(
                     placa
             );
 
-    if (vehiculo != null
-            && !vehiculo.isDisponible()) {
+    if (vehiculo != null) {
 
         vehiculo.setDisponible(
                 true

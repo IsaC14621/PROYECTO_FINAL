@@ -1,4 +1,5 @@
 import gestion.GestionClientes;
+import gestion.GestionContratos;
 import gestion.GestionVehiculos;
 import java.util.Scanner;
 import modelos.Camioneta;
@@ -7,6 +8,7 @@ import modelos.Cliente;
 import modelos.ContratoRenting;
 import modelos.Moto;
 import modelos.Vehiculo;
+import utilidades.Validaciones;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +20,7 @@ public class Main {
             int opcion;
 
     GestionVehiculos gestionVehiculos = new GestionVehiculos();
+    GestionContratos gestionContratos = new GestionContratos();
 do {
 
     System.out.println(
@@ -72,8 +75,16 @@ do {
             "12. Crear contrato"
     );
 
+     System.out.println(
+            "13. Informe general"
+    );
+
+     System.out.println(
+            "14. Listar contratos"
+    );
+
     System.out.println(
-            "13. Salir"
+            "15. Salir"
     );
 
     System.out.print(
@@ -86,7 +97,7 @@ do {
         opcion = sc.nextInt();
         sc.nextLine();
 
-        if (opcion >= 1 && opcion <= 11) {
+        if (opcion >= 1 && opcion <= 15) {
             break; // opción válida
         } else {
             System.out.println("Opcion invalida. Intente nuevamente.");
@@ -105,7 +116,9 @@ do {
                     "Cedula: "
             );
             String cedula =
-                    sc.nextLine();
+        Validaciones.validarCedula(
+                sc
+        );
                     if (
         gestion.buscarCliente(
                 cedula
@@ -230,6 +243,8 @@ if (clienteRegistrado) {
                     gestion.eliminarCliente(
                             eliminar
                     );
+
+                    gestionContratos.eliminarContratosCliente(eliminar);
 
             if (eliminado) {
 
@@ -532,6 +547,10 @@ case 9:
 
     if (devuelto) {
 
+        gestionContratos.finalizarContrato(
+        placaDevolver
+);
+
         System.out.println(
                 "Vehiculo devuelto."
         );
@@ -705,42 +724,68 @@ while (true) {
 
     sc.nextLine();
 
-    if ( vehiculoContrato.isDisponible()) {
+    if (vehiculoContrato.isDisponible()) {
 
-       float totalPagar =
-        (float)
-        (dias *
-        vehiculoContrato.getPrecioPorDia());
+    float totalPagar =
+            (float)
+            (dias *
+            vehiculoContrato.getPrecioPorDia());
 
-ContratoRenting contrato =
-        new ContratoRenting(
-                1,
-                cliente,
-                vehiculoContrato,
-                dias,
-                totalPagar,
-                "ACTIVO"
-        );
-        vehiculoContrato.setDisponible(
-                false
-        );
+    ContratoRenting contrato =
+            new ContratoRenting(
+                gestionContratos.generarId(),
+                    cliente,
+                    vehiculoContrato,
+                    dias,
+                    totalPagar,
+                    "ACTIVO"
+            );
+
+    boolean contratoRegistrado =
+            gestionContratos
+                    .registrarContrato(
+                            contrato
+                    );
+
+    if (contratoRegistrado) {
 
         System.out.println(
-                contrato
+                "Contrato creado."
         );
+
+        vehiculoContrato.setDisponible(false);
 
     } else {
 
         System.out.println(
-                "No se pudo crear el contrato."
+                "El cliente ya tiene un contrato activo."
         );
 
     }
 
+} else {
+
+    System.out.println(
+            "No se pudo crear el contrato."
+    );
+
+}
+
+break;
+    case 13:
+
+    gestionContratos.informeGeneral();
+
+    break;
+
+case 14:
+
+    gestionContratos.listarContratos();
+
     break;
 
 
-        case 13:
+        case 15:
 
             System.out.println(
                     "Saliendo del sistema..."
@@ -756,6 +801,6 @@ ContratoRenting contrato =
 
     }
 
-} while (opcion != 13);
+} while (opcion != 15);
     }
     }
